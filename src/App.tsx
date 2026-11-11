@@ -1,5 +1,20 @@
+import type { ChecklistItem as Task } from "./types/checklist";
+import ChecklistItem from './components/ChecklistItem'
+
 function App() {
-  return <h1>Riska</h1>;
+    const tarefa: Task = {
+        id: '1', 
+        text: "texto",
+        done: true
+    };
+    
+    return (
+        <div>
+            <ul>
+                <ChecklistItem item={tarefa} />
+            </ul>
+        </div>
+    );
 }
 
 export default App;
