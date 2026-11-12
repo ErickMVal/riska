@@ -1,5 +1,5 @@
 import ChecklistItem from './components/ChecklistItem';
-import type { ChecklistItem as Task } from "./types/checklist";
+import type { ChecklistItem as Task } from './types/checklist';
 import { useState } from 'react';
 
 function App() {
@@ -13,19 +13,28 @@ function App() {
         setItens(
             itens.map((item) => {
                 if (item.id === id) {
-                    return {...item, done: !item.done}
-                }    
+                    return { ...item, done: !item.done };
+                }
 
                 return item;
-            })
+            }),
         );
     }
-    
+
+    function handleDelete(id: string) {
+        setItens(itens.filter((item) => item.id !== id));
+    }
+
     return (
         <div>
             <ul>
                 {itens.map((item) => (
-                    <ChecklistItem key={item.id} item={item} onToggle={handleToggle}/>
+                    <ChecklistItem
+                        key={item.id}
+                        item={item}
+                        onToggle={handleToggle}
+                        onDelete={handleDelete}
+                    />
                 ))}
             </ul>
         </div>
