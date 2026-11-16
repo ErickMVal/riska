@@ -9,6 +9,8 @@ function App() {
         { id: '3', text: 'arrumar cozinha', done: false },
     ]);
 
+    const [texto, setTexto] = useState('');
+
     function handleToggle(id: string) {
         setItens(
             itens.map((item) => {
@@ -37,6 +39,12 @@ function App() {
                     />
                 ))}
             </ul>
+            <input
+                type="text"
+                placeholder="Novo item"
+                value={texto}
+                onChange={(e) => setTexto(e.target.value)}
+            />
         </div>
     );
 }
