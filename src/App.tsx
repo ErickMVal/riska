@@ -1,6 +1,6 @@
 import ChecklistItem from './components/ChecklistItem';
 import type { ChecklistItem as Task } from './types/checklist';
-import { useState } from 'react';
+import { useState, type SubmitEvent } from 'react';
 
 function App() {
     const [itens, setItens] = useState<Task[]>([
@@ -9,7 +9,7 @@ function App() {
         { id: '3', text: 'arrumar cozinha', done: false },
     ]);
 
-    const [texto, setTexto] = useState('');
+    const [inpText, setText] = useState('');
 
     function handleToggle(id: string) {
         setItens(
@@ -27,6 +27,26 @@ function App() {
         setItens(itens.filter((item) => item.id !== id));
     }
 
+    function handleAdd() {
+        if (inpText.trim() === '') {
+            return;
+        }
+
+        const newItem: Task = {
+            id: crypto.randomUUID(),
+            text: inpText.trim(),
+            done: false,
+        };
+
+        setItens([...itens, newItem]);
+        setText('');
+    }
+
+    function handleSubmit(e: SubmitEvent<HTMLFormElement>) {
+        e.preventDefault();
+        handleAdd();
+    }
+
     return (
         <div>
             <ul>
@@ -39,12 +59,16 @@ function App() {
                     />
                 ))}
             </ul>
-            <input
-                type="text"
-                placeholder="Novo item"
-                value={texto}
-                onChange={(e) => setTexto(e.target.value)}
-            />
+            <form onSubmit={handleSubmit}>
+                <input
+                    type="text"
+                    placeholder="Novo item"
+                    value={inpText}
+                    onChange={(e) => setText(e.target.value)}
+                    onBlur={handleAdd}
+                />
+                <button type="submit">Enviar</button>
+            </form>
         </div>
     );
 }
