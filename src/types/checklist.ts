@@ -3,3 +3,10 @@ export type ChecklistItem = {
     text: string;
     done: boolean;
 };
+
+export type Checklist = {
+    id: string;
+    title: string;
+    items: ChecklistItem[];
+    createdAt: number;
+};
