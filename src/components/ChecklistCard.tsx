@@ -1,3 +1,4 @@
+import { useState, type SubmitEvent } from 'react';
 import type { Checklist } from '../types/checklist';
 import ChecklistItem from './ChecklistItem';
 
@@ -5,9 +6,30 @@ type ChecklistCardProps = {
     checklist: Checklist;
     onToggle: (checklistId: string, itemId: string) => void;
     onDelete: (checklistId: string, itemId: string) => void;
+    onAdd: (checklistId: string, text: string) => void;
 };
 
-function ChecklistCard({ checklist, onToggle, onDelete }: ChecklistCardProps) {
+function ChecklistCard({
+    checklist,
+    onToggle,
+    onDelete,
+    onAdd,
+}: ChecklistCardProps) {
+    const [inpText, setText] = useState('');
+
+    function handleSubmit(e: SubmitEvent<HTMLFormElement>) {
+        e.preventDefault();
+
+        const text = inpText.trim();
+
+        if (text === '') {
+            return;
+        }
+
+        onAdd(checklist.id, text);
+        setText('');
+    }
+
     return (
         <section>
             <h2>{checklist.title}</h2>
@@ -21,16 +43,15 @@ function ChecklistCard({ checklist, onToggle, onDelete }: ChecklistCardProps) {
                     />
                 ))}
             </ul>
-            {/* <form onSubmit={handleSubmit}>
+            <form onSubmit={handleSubmit}>
                 <input
                     type="text"
                     placeholder="Novo item"
                     value={inpText}
                     onChange={(e) => setText(e.target.value)}
-                    onBlur={handleAdd}
                 />
                 <button type="submit">Enviar</button>
-            </form> */}
+            </form>
         </section>
     );
 }

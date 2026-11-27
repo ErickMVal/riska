@@ -16,13 +16,6 @@ function App() {
             createdAt: Date.now(),
         },
     ]);
-    // const [itens, setItens] = useState<Task[]>([
-    //     { id: '1', text: 'arrumar casa', done: true },
-    //     { id: '2', text: 'arrumar quarto', done: true },
-    //     { id: '3', text: 'arrumar cozinha', done: false },
-    // ]);
-
-    // const [inpText, setText] = useState('');
 
     function handleToggle(checklistId: string, itemId: string) {
         setChecklists(
@@ -45,9 +38,6 @@ function App() {
         );
     }
 
-    // function handleDelete(id: string) {
-    //     setItens(itens.filter((item) => item.id !== id));
-    // }
     function handleDelete(checklistId: string, itemId: string) {
         setChecklists(
             checklists.map((checklist) => {
@@ -63,20 +53,26 @@ function App() {
         );
     }
 
-    // function handleAdd() {
-    //     if (inpText.trim() === '') {
-    //         return;
-    //     }
+    function handleAdd(checklistId: string, text: string) {
+        const newItem: Task = {
+            id: crypto.randomUUID(),
+            text: text,
+            done: false,
+        };
 
-    //     const newItem: Task = {
-    //         id: crypto.randomUUID(),
-    //         text: inpText.trim(),
-    //         done: false,
-    //     };
+        setChecklists(
+            checklists.map((checklist) => {
+                if (checklist.id !== checklistId) {
+                    return checklist;
+                }
 
-    //     setItens([...itens, newItem]);
-    //     setText('');
-    // }
+                return {
+                    ...checklist,
+                    items: [...checklist.items, newItem],
+                };
+            }),
+        );
+    }
 
     // function handleSubmit(e: SubmitEvent<HTMLFormElement>) {
     //     e.preventDefault();
@@ -91,6 +87,7 @@ function App() {
                     checklist={checklist}
                     onToggle={handleToggle}
                     onDelete={handleDelete}
+                    onAdd={handleAdd}
                 />
             ))}
         </div>
