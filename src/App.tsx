@@ -1,5 +1,6 @@
 import ChecklistCard from './components/ChecklistCard';
 import ChecklistItem from './components/ChecklistItem';
+import NewChecklistForm from './components/NewChecklistForm';
 import type { Checklist, ChecklistItem as Task } from './types/checklist';
 import { useState, type SubmitEvent } from 'react';
 
@@ -12,6 +13,16 @@ function App() {
                 { id: '1', text: 'arrumar casa', done: true },
                 { id: '2', text: 'arrumar quarto', done: true },
                 { id: '3', text: 'arrumar cozinha', done: false },
+            ],
+            createdAt: Date.now(),
+        },
+        {
+            id: '2',
+            title: 'Mercado',
+            items: [
+                { id: '1', text: 'Comprar banana', done: true },
+                { id: '2', text: 'Comprar leite', done: true },
+                { id: '3', text: 'Comprar ovos', done: false },
             ],
             createdAt: Date.now(),
         },
@@ -74,13 +85,20 @@ function App() {
         );
     }
 
-    // function handleSubmit(e: SubmitEvent<HTMLFormElement>) {
-    //     e.preventDefault();
-    //     handleAdd();
-    // }
+    function handleAddChecklist(title: string) {
+        const newChecklist: Checklist = {
+            id: crypto.randomUUID(),
+            title: title,
+            items: [],
+            createdAt: Date.now(),
+        };
+
+        setChecklists([...checklists, newChecklist]);
+    }
 
     return (
         <div>
+            <NewChecklistForm onAdd={handleAddChecklist} />
             {checklists.map((checklist) => (
                 <ChecklistCard
                     key={checklist.id}
